@@ -1,0 +1,1216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cortes, Jhondave Pelayo - Multi-Page Portfolio</title>
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='30' cy='65' r='18' fill='%231E293B'/%3E%3Cpath d='M52 20 H70 C81 20 90 29 90 40 V60 C90 76.5 76.5 90 60 90 H52 V20 Z' fill='%231E293B'/%3E%3C/svg%3E">
+
+  <!-- Inter & Pacifico Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Pacifico&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --buttercup-sky: #FFF2B2;
+      --dewy-blue: #A8C6E7;
+      --sunwashed: #FFE08A;
+      --cloud-puff: #FFF7D6;
+      --morning-breeze: #7FA8D6;
+      --bg-main: rgba(255, 250, 245, 0.88);
+      --bg-card: rgba(255, 255, 255, 0.92);
+      --bg-dark: #1E293B;
+      --navbar-bg: rgba(255, 255, 255, 0.92);
+      --text-dark: #1E293B;
+      --text-muted: #526071;
+      --text-light: #F8FAFC;
+      --shadow-sm: 0 4px 6px -1px rgba(127, 168, 214, 0.15);
+      --shadow-md: 0 10px 20px -3px rgba(127, 168, 214, 0.25);
+      --shadow-lg: 0 20px 25px -5px rgba(127, 168, 214, 0.35);
+      --radius-sm: 10px;
+      --radius-md: 16px;
+      --radius-full: 9999px;
+      --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    body.dark-mode {
+      --bg-main: rgba(15, 23, 42, 0.92);
+      --bg-card: rgba(30, 41, 59, 0.92);
+      --bg-dark: #090D16;
+      --navbar-bg: rgba(15, 23, 42, 0.92);
+      --text-dark: #F8FAFC;
+      --text-muted: #94A3B8;
+      --cloud-puff: #334155;
+      --dewy-blue: #475569;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { 
+      scroll-behavior: smooth; 
+      font-family: 'Inter', sans-serif; 
+      color: var(--text-dark); 
+      background-color: #2b1d14; 
+      line-height: 1.6; 
+      cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 24 24'%3E%3Cpath fill='%238B5A2B' d='M2 21h18v-2H2M20 8h-2V5h2m0-2H4v10a4 4 0 0 0 4 4h6a4 4 0 0 0 4-4v-1h2a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2z'/%3E%3C/svg%3E") 16 16, auto; 
+    }
+
+    body { 
+      overflow-x: hidden; 
+      color: var(--text-dark); 
+      background: linear-gradient(rgba(245, 235, 220, 0.75), rgba(245, 235, 220, 0.75)), url('coffee.jpg') no-repeat center center fixed; 
+      background-size: cover; 
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+    body.dark-mode { 
+      background: linear-gradient(rgba(20, 15, 12, 0.85), rgba(20, 15, 12, 0.85)), url('coffee.jpg') no-repeat center center fixed; 
+      background-size: cover; 
+    }
+
+    a, button, input, .social-link, .playlist-item, .xox-cell, .rps-btn, .game-tab-btn, .dropdown-toggle { cursor: pointer; }
+
+    /* PAGE SEPARATION ROUTING CONTROL */
+    .page-view {
+      display: none;
+      width: 100%;
+      flex: 1;
+    }
+    .page-view.active-page {
+      display: block;
+      animation: fadeInPage 0.4s ease-in-out forwards;
+    }
+    @keyframes fadeInPage {
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* CUSTOM COFFEE CUP CURSOR */
+    #custom-cursor {
+      position: fixed;
+      top: 0;
+      left: 0;
+      pointer-events: none;
+      z-index: 999999;
+      transform: translate(-50%, -50%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      transition: transform 0.05s ease-out;
+    }
+    .cursor-cup { font-size: 24px; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3)); }
+
+    a { text-decoration: none; color: inherit; transition: var(--transition); }
+    ul { list-style: none; }
+    img { max-width: 100%; height: auto; display: block; }
+    section { padding: 8rem 1.5rem 5rem 1.5rem; max-width: 1200px; margin: 0 auto; width: 100%; }
+
+    .section-title { font-size: 2.25rem; font-weight: 800; text-align: center; margin-bottom: 0.5rem; color: var(--text-dark); }
+    .section-subtitle { text-align: center; color: var(--text-muted); margin-bottom: 3rem; font-size: 1.1rem; }
+
+    /* BREWING PRELOADER */
+    #preloader {
+      position: fixed;
+      top: 0; left: 0; width: 100%; height: 100%;
+      background: #1a100c;
+      display: flex; flex-direction: column; justify-content: center; align-items: center;
+      z-index: 99999;
+      transition: opacity 0.6s ease, visibility 0.6s ease;
+    }
+    #preloader.fade-out { opacity: 0; visibility: hidden; pointer-events: none; }
+    .brew-animation-container { position: relative; width: 140px; height: 140px; display: flex; justify-content: center; align-items: center; margin-bottom: 20px; }
+    .brew-cup { width: 80px; height: 60px; background: #FFF7D6; border-radius: 0 0 35px 35px; border: 4px solid #C0A080; position: relative; overflow: hidden; }
+    .brew-cup::after { content: ''; position: absolute; right: -18px; top: 10px; width: 14px; height: 28px; border: 4px solid #C0A080; border-left: none; border-radius: 0 12px 12px 0; }
+    .brew-liquid { position: absolute; bottom: 0; left: 0; width: 100%; height: 0%; background: linear-gradient(to top, #4A2E13, #8B5A2B); animation: fillBrewCup 2s ease-in-out infinite alternate; }
+    @keyframes fillBrewCup { 0% { height: 0%; } 100% { height: 85%; } }
+    .brew-steam { position: absolute; top: -25px; left: 50%; transform: translateX(-50%); display: flex; gap: 8px; }
+    .brew-steam span { display: block; width: 4px; height: 20px; background: rgba(255, 242, 178, 0.4); border-radius: 4px; animation: riseSteam 1.5s ease-in-out infinite; }
+    .brew-steam span:nth-child(2) { animation-delay: 0.5s; }
+    .brew-steam span:nth-child(3) { animation-delay: 1s; }
+    @keyframes riseSteam {
+      0% { transform: translateY(10px) scaleX(0.5); opacity: 0; }
+      50% { opacity: 0.8; }
+      100% { transform: translateY(-15px) scaleX(1.5); opacity: 0; }
+    }
+    .preloader-title { color: #FFF2B2; font-weight: 700; font-size: 1.25rem; letter-spacing: 0.8px; }
+
+    /* NAVBAR & DROPDOWN */
+    .navbar { position: fixed; top: 0; left: 0; width: 100%; background: var(--navbar-bg); backdrop-filter: blur(12px); z-index: 1000; border-bottom: 2px solid var(--cloud-puff); box-shadow: var(--shadow-sm); }
+    .nav-container { max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; padding: 0.8rem 1.5rem; }
+    .brand-logo { display: flex; align-items: center; gap: 0.75rem; font-size: 1.3rem; font-weight: 800; color: var(--text-dark); }
+    .nav-id-img { width: 40px; height: 40px; border-radius: 50%; object-fit: cover; border: 2px solid var(--morning-breeze); cursor: pointer; }
+    .nav-right-controls { display: flex; align-items: center; gap: 1.25rem; }
+
+    .dropdown { position: relative; display: inline-block; }
+    .dropdown-toggle { background: var(--morning-breeze); color: #fff; font-weight: 700; font-size: 0.95rem; padding: 0.6rem 1.2rem; border-radius: var(--radius-sm); border: none; display: flex; align-items: center; gap: 0.5rem; box-shadow: var(--shadow-sm); transition: var(--transition); }
+    .dropdown-toggle:hover { background: var(--text-dark); }
+    .dropdown-menu { display: none; position: absolute; right: 0; top: calc(100% + 8px); background: var(--bg-card); min-width: 180px; box-shadow: var(--shadow-lg); border-radius: var(--radius-sm); border: 2px solid var(--cloud-puff); z-index: 1100; overflow: hidden; }
+    .dropdown-menu.show { display: block; }
+    .dropdown-menu a { display: block; color: var(--text-dark); padding: 0.75rem 1rem; font-weight: 600; font-size: 0.95rem; border-bottom: 1px solid var(--cloud-puff); transition: var(--transition); }
+    .dropdown-menu a:last-child { border-bottom: none; }
+    .dropdown-menu a:hover { background-color: var(--buttercup-sky); color: #1E293B; padding-left: 1.25rem; }
+    .theme-toggle-btn { background: var(--cloud-puff); border: 2px solid var(--dewy-blue); color: var(--text-dark); width: 42px; height: 42px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; }
+
+    /* SOCIAL SIDEBAR */
+    .social-sidebar { position: fixed; right: 1.25rem; top: 50%; transform: translateY(-50%); display: flex; flex-direction: column; gap: 0.85rem; z-index: 999; background: linear-gradient(rgba(255, 255, 255, 0.88), rgba(255, 255, 255, 0.88)), url('socials.jpg'); background-size: cover; padding: 0.75rem 0.5rem; border-radius: var(--radius-full); box-shadow: var(--shadow-md); border: 2px solid var(--dewy-blue); }
+    body.dark-mode .social-sidebar { background: linear-gradient(rgba(30, 41, 59, 0.88), rgba(30, 41, 59, 0.88)), url('socials.jpg'); background-size: cover; }
+    .social-link { width: 44px; height: 44px; border-radius: 50%; display: flex; align-items: center; justify-content: center; background: var(--cloud-puff); color: var(--text-dark); box-shadow: var(--shadow-sm); transition: var(--transition); }
+    .social-link svg { width: 22px; height: 22px; fill: currentColor; }
+    .social-link:hover { transform: scale(1.15) translateX(-3px); color: #FFFFFF; }
+    .social-link.facebook:hover { background: #1877F2; }
+    .social-link.instagram:hover { background: linear-gradient(45deg, #f09433, #e6683c, #bc1888); }
+    .social-link.tiktok:hover { background: #000000; }
+
+    /* BUTTONS */
+    .btn { display: inline-block; padding: 0.85rem 1.8rem; border-radius: var(--radius-sm); font-weight: 700; cursor: pointer; border: none; transition: var(--transition); font-size: 1rem; }
+    .btn-primary { background-color: var(--morning-breeze); color: #FFFFFF; }
+    .btn-secondary { background-color: var(--sunwashed); color: #1E293B; }
+
+    /* HERO STYLES */
+    .hero-wrapper { background: linear-gradient(rgba(15, 23, 42, 0.75), rgba(15, 23, 42, 0.75)), url('Cover.jpg'); background-size: cover; background-position: center center; background-repeat: no-repeat; border-bottom-right-radius: 60px; border-bottom-left-radius: 60px; padding-top: 8rem; padding-bottom: 6rem; width: 100%; }
+    .hero-section { min-height: calc(85vh - 6rem); display: flex; align-items: center; justify-content: center; padding: 0 1.5rem; }
+    .hero-container-centered { display: flex; flex-direction: column; align-items: center; text-align: center; width: 100%; max-width: 800px; margin: 0 auto; }
+    .hero-photo-wrapper { margin-bottom: 2rem; }
+    .hero-portrait { width: 280px; height: 280px; object-fit: cover; border-radius: 30px; border: 6px solid var(--bg-card); box-shadow: var(--shadow-lg); cursor: pointer; transition: transform 0.3s ease; }
+    .hero-portrait:hover { transform: scale(1.03); }
+    .hero-text h1 { font-family: 'Pacifico', cursive; font-size: 2.8rem; font-weight: 700; margin-bottom: 1rem; color: #FFE08A; text-shadow: 0 2px 8px rgba(0,0,0,0.5); }
+    .hero-text p { font-size: 1.15rem; color: #e2e8f0; margin-bottom: 2rem; line-height: 1.7; max-width: 700px; margin-left: auto; margin-right: auto; }
+    .btn-group { display: flex; justify-content: center; gap: 1rem; }
+
+    /* ABOUT STYLES */
+    .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; align-items: center; background: linear-gradient(rgba(255, 255, 255, 0.88), rgba(255, 255, 255, 0.88)), url('CDM.jpg'); background-size: cover; padding: 2.5rem; border-radius: var(--radius-md); border: 2px solid var(--dewy-blue); }
+    body.dark-mode .about-grid { background: linear-gradient(rgba(30, 41, 59, 0.9), rgba(30, 41, 59, 0.9)), url('CDM.jpg'); background-size: cover; }
+    .about-photo-frame { overflow: hidden; border-radius: var(--radius-md); border: 4px solid var(--dewy-blue); cursor: pointer; transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease; }
+    .about-photo-frame:hover { transform: scale(1.02); border-color: var(--sunwashed); box-shadow: var(--shadow-md); }
+    .about-photo { width: 100%; height: 380px; object-fit: cover; display: block; transition: transform 0.4s ease; }
+    .about-photo-frame:hover .about-photo { transform: scale(1.05); }
+    .about-text p { color: var(--text-muted); font-size: 1.05rem; margin-bottom: 1.25rem; }
+    body.dark-mode .about-text p { color: var(--text-muted); }
+
+    /* GALLERY GRID STYLES */
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 1.25rem;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+    .gallery-item {
+      position: relative;
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      border: 3px solid var(--dewy-blue);
+      background-color: var(--bg-card);
+      box-shadow: var(--shadow-sm);
+      aspect-ratio: 1 / 1;
+      transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1), 
+                  box-shadow 0.35s ease, 
+                  border-color 0.35s ease;
+    }
+    .gallery-item img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      cursor: pointer;
+      transition: transform 0.4s ease;
+    }
+    .gallery-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, rgba(15, 23, 42, 0.85) 0%, rgba(15, 23, 42, 0) 60%);
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+      padding-bottom: 0.85rem;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      pointer-events: none;
+    }
+    .gallery-overlay span {
+      color: var(--buttercup-sky);
+      font-weight: 700;
+      font-size: 0.9rem;
+      letter-spacing: 0.5px;
+      transform: translateY(8px);
+      transition: transform 0.3s ease;
+    }
+    .gallery-item:hover {
+      transform: translateY(-6px) scale(1.05);
+      border-color: var(--sunwashed);
+      box-shadow: var(--shadow-lg), 0 0 15px rgba(168, 198, 231, 0.4);
+      z-index: 5;
+    }
+    .gallery-item:hover img {
+      transform: scale(1.08);
+    }
+    .gallery-item:hover .gallery-overlay {
+      opacity: 1;
+    }
+    .gallery-item:hover .gallery-overlay span {
+      transform: translateY(0);
+    }
+
+    /* SKILLS & PROJECTS */
+    .skills-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1.5rem; }
+    .skill-card { 
+      background: var(--bg-card); 
+      border-radius: var(--radius-md); 
+      border: 2px solid var(--cloud-puff); 
+      overflow: hidden; 
+      display: flex; 
+      flex-direction: column; 
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .skill-card:hover {
+      transform: translateY(-8px) scale(1.02);
+      box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
+    }
+    .skill-img-wrapper { width: 100%; height: 170px; background-color: var(--dewy-blue); overflow: hidden; }
+    .skill-img { 
+      width: 100%; 
+      height: 100%; 
+      object-fit: cover; 
+      cursor: pointer;
+      transition: transform 0.4s ease;
+    }
+    .skill-img:hover { transform: scale(1.05); }
+    .skill-content { padding: 1.5rem; }
+
+    .projects-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; }
+    .project-card { 
+      background: var(--bg-card); 
+      border-radius: var(--radius-md); 
+      overflow: hidden; 
+      border: 2px solid var(--cloud-puff); 
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .project-card:hover {
+      transform: translateY(-8px) scale(1.02);
+      box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
+    }
+    .project-img-wrapper { width: 100%; height: 200px; background-color: var(--dewy-blue); overflow: hidden; }
+    .project-img { 
+      width: 100%; 
+      height: 100%; 
+      object-fit: cover; 
+      cursor: pointer;
+      transition: transform 0.4s ease;
+    }
+    .project-img:hover { transform: scale(1.05); }
+    .project-info { padding: 1.5rem; }
+    .project-tags { display: flex; gap: 0.5rem; flex-wrap: wrap; margin-top: 0.5rem; }
+    .tag { background: var(--cloud-puff); color: var(--text-dark); font-size: 0.8rem; padding: 0.25rem 0.6rem; border-radius: 6px; }
+
+    /* LIGHTBOX MODAL OVERLAY STYLES */
+    .addon-lightbox-modal {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background-color: rgba(0, 0, 0, 0.85);
+      z-index: 100000;
+      justify-content: center;
+      align-items: center;
+      padding: 1.5rem;
+      backdrop-filter: blur(5px);
+      animation: addonFadeIn 0.3s ease forwards;
+    }
+    .addon-lightbox-modal.active {
+      display: flex;
+    }
+    @keyframes addonFadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    .addon-lightbox-content {
+      max-width: 90%;
+      max-height: 85vh;
+      border-radius: var(--radius-md);
+      box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+      border: 3px solid var(--dewy-blue);
+      object-fit: contain;
+    }
+    .addon-lightbox-close {
+      position: absolute;
+      top: 1.5rem;
+      right: 2rem;
+      color: #FFFFFF;
+      font-size: 2.5rem;
+      font-weight: 700;
+      cursor: pointer;
+      user-select: none;
+      line-height: 1;
+      transition: color 0.2s ease, transform 0.2s ease;
+    }
+    .addon-lightbox-close:hover {
+      color: var(--sunwashed);
+      transform: scale(1.15);
+    }
+
+    /* FEATURE 2: IDLE MOUSE CURSOR SMOKE TRAIL CANVAS */
+    #addon-smoke-canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      pointer-events: none;
+      z-index: 999998;
+    }
+
+    /* FEATURE 3: COFFEE STEAM ANIMATION */
+    .addon-steam-wrapper {
+      position: absolute;
+      top: -45px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 60px;
+      height: 45px;
+      pointer-events: none;
+      display: flex;
+      justify-content: space-around;
+      z-index: 10;
+    }
+    .addon-steam-line {
+      width: 6px;
+      height: 40px;
+      background: linear-gradient(to top, rgba(255, 242, 178, 0.7), rgba(255, 255, 255, 0));
+      border-radius: 50% / 20%;
+      filter: blur(2px);
+      animation: addonSteamDrift 2.2s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+      opacity: 0;
+    }
+    .addon-steam-line:nth-child(1) { animation-delay: 0s; }
+    .addon-steam-line:nth-child(2) { animation-delay: 0.7s; }
+    .addon-steam-line:nth-child(3) { animation-delay: 1.4s; }
+
+    @keyframes addonSteamDrift {
+      0% { transform: translateY(15px) scaleX(0.4) rotate(0deg); opacity: 0; }
+      35% { opacity: 0.75; }
+      70% { transform: translateY(-20px) scaleX(1.4) rotate(6deg); opacity: 0.35; }
+      100% { transform: translateY(-45px) scaleX(2) rotate(-6deg); opacity: 0; }
+    }
+
+    /* COFFEE THEMED AJAX SUCCESS POPUP MODAL */
+    .coffee-popup-modal {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background-color: rgba(0, 0, 0, 0.85);
+      z-index: 100005;
+      justify-content: center;
+      align-items: center;
+      padding: 1.5rem;
+      backdrop-filter: blur(5px);
+      animation: addonFadeIn 0.3s ease forwards;
+    }
+    .coffee-popup-modal.active {
+      display: flex;
+    }
+    .coffee-popup-content {
+      background: var(--bg-card);
+      color: var(--text-dark);
+      padding: 2.5rem 2rem;
+      border-radius: var(--radius-md);
+      text-align: center;
+      max-width: 420px;
+      width: 100%;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+      border: 3px solid var(--dewy-blue);
+      position: relative;
+      animation: zoomInModal 0.3s ease forwards;
+    }
+    @keyframes zoomInModal {
+      from { transform: scale(0.95); }
+      to { transform: scale(1); }
+    }
+    .coffee-popup-cup-anim {
+      position: relative;
+      width: 70px;
+      height: 60px;
+      background: var(--cloud-puff);
+      border-radius: 0 0 25px 25px;
+      border: 3px solid #C0A080;
+      margin: 0 auto 1.5rem auto;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 1.8rem;
+    }
+    .coffee-popup-cup-anim::after {
+      content: '';
+      position: absolute;
+      right: -14px;
+      top: 8px;
+      width: 12px;
+      height: 22px;
+      border: 3px solid #C0A080;
+      border-left: none;
+      border-radius: 0 10px 10px 0;
+    }
+    .coffee-popup-steam {
+      position: absolute;
+      top: -30px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      gap: 6px;
+    }
+    .coffee-popup-steam span {
+      display: block;
+      width: 4px;
+      height: 22px;
+      background: rgba(192, 160, 128, 0.6);
+      border-radius: 4px;
+      animation: coffeePopupRise 1.4s ease-in-out infinite;
+    }
+    .coffee-popup-steam span:nth-child(2) { animation-delay: 0.4s; }
+    .coffee-popup-steam span:nth-child(3) { animation-delay: 0.8s; }
+    @keyframes coffeePopupRise {
+      0% { transform: translateY(10px) scaleX(0.5); opacity: 0; }
+      50% { opacity: 0.8; }
+      100% { transform: translateY(-15px) scaleX(1.5); opacity: 0; }
+    }
+    .coffee-popup-msg {
+      font-weight: 700;
+      font-size: 1.15rem;
+      margin-bottom: 1.5rem;
+      line-height: 1.5;
+    }
+
+    /* PLAYLIST & GAMES */
+    .youtube-playlist-wrapper { display: grid; grid-template-columns: 1.3fr 0.7fr; gap: 2rem; background: linear-gradient(rgba(255, 255, 255, 0.88), rgba(255, 255, 255, 0.88)), url('musicbg.jpg'); background-size: cover; padding: 2rem; border-radius: var(--radius-md); border: 2px solid var(--dewy-blue); align-items: center; }
+    body.dark-mode .youtube-playlist-wrapper { background: linear-gradient(rgba(30, 41, 59, 0.9), rgba(30, 41, 59, 0.9)), url('musicbg.jpg'); background-size: cover; }
+    .video-player-container { position: relative; width: 100%; padding-bottom: 56.25%; height: 0; border-radius: var(--radius-sm); overflow: hidden; background: #000; }
+    .playlist-items { display: flex; flex-direction: column; gap: 0.75rem; max-height: 380px; overflow-y: auto; }
+    .playlist-item { display: flex; align-items: center; gap: 1rem; padding: 0.75rem 1rem; background: var(--bg-main); border: 2px solid var(--cloud-puff); border-radius: var(--radius-sm); cursor: pointer; color: var(--text-dark); }
+    .playlist-item.active { background: var(--morning-breeze); color: #fff; }
+
+    .games-section-wrapper { background: linear-gradient(rgba(255, 255, 255, 0.88), rgba(255, 255, 255, 0.88)), url('arcade.jpg'); background-size: cover; padding: 2rem; border-radius: var(--radius-md); border: 2px solid var(--dewy-blue); max-width: 650px; margin: 0 auto; text-align: center; }
+    body.dark-mode .games-section-wrapper { background: linear-gradient(rgba(30, 41, 59, 0.9), rgba(30, 41, 59, 0.9)), url('arcade.jpg'); background-size: cover; }
+    .game-tabs { display: flex; justify-content: center; gap: 0.75rem; margin-bottom: 1.5rem; flex-wrap: wrap; }
+    .game-tab-btn { padding: 0.5rem 1.2rem; border-radius: var(--radius-sm); border: 2px solid var(--dewy-blue); background: var(--cloud-puff); cursor: pointer; font-weight: 700; color: var(--text-dark); }
+    .game-tab-btn.active { background: var(--morning-breeze); color: #fff; }
+    .game-panel { display: none; }
+    .game-panel.active { display: block; }
+    .sudoku-container-wrap { display: flex; justify-content: center; align-items: center; }
+    .sudoku-grid { display: grid; grid-template-columns: repeat(9, 32px); grid-template-rows: repeat(9, 32px); border: 3px solid var(--text-dark); background: var(--text-dark); gap: 1px; margin: 0 auto; }
+    .sudoku-cell { background: var(--bg-card); text-align: center; font-size: 0.9rem; font-weight: 700; width: 32px; height: 32px; border: none; outline: none; color: var(--text-dark); }
+    .xox-board { display: grid; grid-template-columns: repeat(3, 64px); grid-template-rows: repeat(3, 64px); gap: 10px; width: 212px; height: 212px; margin: 0 auto 1rem auto; }
+    .xox-cell { background: var(--bg-card); border: 2px solid var(--dewy-blue); border-radius: var(--radius-sm); font-size: 1.8rem; font-weight: 900; display: flex; align-items: center; justify-content: center; cursor: pointer; width: 64px; height: 64px; color: var(--text-dark); }
+
+    .rps-container { display: flex; flex-direction: column; align-items: center; gap: 1.25rem; }
+    .rps-arena { display: flex; justify-content: space-around; align-items: center; width: 100%; max-width: 420px; background: rgba(255, 255, 255, 0.6); padding: 1.25rem; border-radius: var(--radius-md); border: 2px dashed var(--dewy-blue); }
+    body.dark-mode .rps-arena { background: rgba(30, 41, 59, 0.6); }
+    .rps-fighter { display: flex; flex-direction: column; align-items: center; gap: 0.5rem; font-weight: 700; font-size: 0.95rem; color: var(--text-dark); }
+    .rps-avatar { width: 70px; height: 70px; border-radius: 50%; background: var(--bg-card); border: 3px solid var(--morning-breeze); display: flex; align-items: center; justify-content: center; font-size: 2rem; box-shadow: var(--shadow-sm); transition: transform 0.2s ease; color: var(--text-dark); }
+    @keyframes rpsPulse { 0% { transform: scale(1); } 50% { transform: scale(1.15) rotate(5deg); } 100% { transform: scale(1); } }
+    .animating { animation: rpsPulse 0.35s ease infinite alternate; }
+    .rps-vs { font-size: 1.25rem; font-weight: 900; color: var(--text-muted); }
+    .rps-choices { display: flex; gap: 1rem; justify-content: center; }
+    .rps-btn { padding: 0.75rem 1.25rem; font-size: 1.1rem; border-radius: var(--radius-sm); border: 2px solid var(--dewy-blue); background: var(--bg-card); cursor: pointer; transition: var(--transition); font-weight: 700; display: flex; align-items: center; gap: 0.4rem; color: var(--text-dark); }
+    .rps-btn:hover { background: var(--buttercup-sky); color: #1E293B; transform: translateY(-3px) scale(1.05); box-shadow: var(--shadow-md); }
+    .rps-scoreboard { display: flex; gap: 2.5rem; font-weight: 800; font-size: 1.15rem; background: var(--cloud-puff); padding: 0.5rem 1.5rem; border-radius: var(--radius-full); border: 1px solid var(--dewy-blue); color: var(--text-dark); }
+
+    /* CONTACT & FOOTER */
+    .contact-container { max-width: 600px; margin: 0 auto; background: linear-gradient(rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.9)), url('email.jpg'); background-size: cover; padding: 2.5rem; border-radius: var(--radius-md); border: 2px solid var(--dewy-blue); }
+    body.dark-mode .contact-container { background: linear-gradient(rgba(30, 41, 59, 0.9), rgba(30, 41, 59, 0.9)), url('email.jpg'); background-size: cover; }
+    .form-group { margin-bottom: 1.25rem; }
+    .form-group label { display: block; font-weight: 700; margin-bottom: 0.5rem; color: var(--text-dark); }
+    .form-control { width: 100%; padding: 0.85rem 1rem; border: 2px solid var(--cloud-puff); border-radius: var(--radius-sm); font-size: 1rem; background-color: var(--bg-main); color: var(--text-dark); }
+    .form-control::placeholder { color: var(--text-muted); opacity: 0.7; }
+    footer { background: var(--bg-dark); color: var(--text-light); text-align: center; padding: 2.5rem 1.5rem; margin-top: auto; }
+
+    @media (max-width: 1024px) {
+      .gallery-grid { grid-template-columns: repeat(4, 1fr); }
+    }
+    @media (max-width: 768px) {
+      .about-grid { grid-template-columns: 1fr; text-align: center; }
+      .youtube-playlist-wrapper { grid-template-columns: 1fr; }
+      .gallery-grid { grid-template-columns: repeat(3, 1fr); gap: 1rem; }
+    }
+    @media (max-width: 520px) {
+      .gallery-grid { grid-template-columns: repeat(2, 1fr); gap: 0.85rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- CUSTOM COFFEE CURSOR -->
+  <div id="custom-cursor"><div class="cursor-cup">☕</div></div>
+
+  <!-- BREWING PRELOADER WITH FEATURE 3 COFFEE STEAM -->
+  <div id="preloader">
+    <div class="brew-animation-container">
+      <div class="addon-steam-wrapper">
+        <div class="addon-steam-line"></div>
+        <div class="addon-steam-line"></div>
+        <div class="addon-steam-line"></div>
+      </div>
+      <div class="brew-steam"><span></span><span></span><span></span></div>
+      <div class="brew-cup"><div class="brew-liquid"></div></div>
+    </div>
+    <div class="preloader-title">Brewing your experience...</div>
+  </div>
+
+  <!-- NAVBAR WITH "Explore" DROPDOWN TEXT -->
+  <header class="navbar">
+    <div class="nav-container">
+      <a href="#index.html" class="brand-logo page-link">
+        <img src="ID.jpg" alt="ID" class="nav-id-img" onerror="this.onerror=null; this.src='ID.png';">
+        <span>Jhondave</span>
+      </a>
+      <div class="nav-right-controls">
+        <div class="dropdown">
+          <button class="dropdown-toggle" id="dropdownToggleBtn">Explore ▾</button>
+          <div class="dropdown-menu" id="dropdownMenu">
+            <a href="#index.html" class="page-link">Home</a>
+            <a href="#about.html" class="page-link">About</a>
+            <a href="#gallery.html" class="page-link">Gallery</a>
+            <a href="#skills.html" class="page-link">Skills</a>
+            <a href="#projects.html" class="page-link">Projects</a>
+            <a href="#playlist.html" class="page-link">Playlist</a>
+            <a href="#games.html" class="page-link">Games</a>
+            <a href="#contact.html" class="page-link">Contact</a>
+          </div>
+        </div>
+        <button id="themeToggleBtn" class="theme-toggle-btn" title="Switch Theme"><span id="themeIcon">🌙</span></button>
+      </div>
+    </div>
+  </header>
+
+  <!-- SOCIAL SIDEBAR -->
+  <aside class="social-sidebar">
+    <a href="https://www.facebook.com/davpelayo" target="_blank" rel="noopener noreferrer" class="social-link facebook" title="Facebook"><svg viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg></a>
+    <a href="https://www.instagram.com/jhon__vivid" target="_blank" rel="noopener noreferrer" class="social-link instagram" title="Instagram"><svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg></a>
+    <a href="https://www.tiktok.com/@bluejhave" target="_blank" rel="noopener noreferrer" class="social-link tiktok" title="TikTok"><svg viewBox="0 0 24 24"><path d="M12.525 0h3.08c.12 1.01.657 2.1 1.346 2.82 1.057 1.107 2.44 1.71 3.97 1.8v3.237c-1.932-.018-3.72-.64-5.236-1.73v9.392c0 2.105-.725 4.02-2.037 5.46-1.503 1.647-3.66 2.62-5.962 2.62-4.502 0-8.151-3.649-8.151-8.15 0-4.333 3.376-7.882 7.643-8.13v3.295c-2.483.232-4.417 2.333-4.417 4.835 0 2.68 2.17 4.85 4.85 4.85 2.68 0 4.85-2.17 4.85-4.85V0z"/></svg></a>
+  </aside>
+
+  <!-- PAGE 1: HOME PAGE (index.html) -->
+  <main id="index.html" class="page-view active-page">
+    <div class="hero-wrapper">
+      <section class="hero-section" style="padding-top: 0;">
+        <div class="hero-container-centered">
+          <div class="hero-photo-wrapper">
+            <img src="CPEPRO1.jpg" alt="Jhondave Pelayo Cortes" class="hero-portrait" onerror="this.onerror=null; this.src='CPEPRO1.png';">
+          </div>
+          <div class="hero-text">
+            <h1>Cortes, Jhondave Pelayo</h1>
+            <p>A driven, adaptable, artistic, and humble builder who consistently turns challenges into a stepping stones for growth while staying deeply grounded in my craft.</p>
+            <div class="btn-group">
+              <a href="#projects.html" class="btn btn-primary page-link">View My Work</a>
+              <a href="#contact.html" class="btn btn-secondary page-link">Get In Touch</a>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <!-- PAGE 2: ABOUT PAGE (about.html) -->
+  <main id="about.html" class="page-view">
+    <section>
+      <h2 class="section-title">All about a cutieee like me.</h2>
+      <p class="section-subtitle">Passionate about software creation and digital media</p>
+      <div class="about-grid">
+        <div class="about-photo-frame lightbox-trigger"><img src="CPEPRO2.jpg" alt="About Me" class="about-photo" onerror="this.onerror=null; this.src='CPEPRO2.png';"></div>
+        <div class="about-text">
+          <p>I am a dedicated Computer Engineering student passionate about exploring technology, building web projects, and creating modern digital experiences.</p>
+          <p>When I'm not coding or studying hardware architecture, I enjoy working on graphical media, interactive interface designs, and learning new tools.</p>
+          <p>A punctual, detail-oriented, and artistic builder fueled by a love for graphic design, I love a calming palette of gray, brown, and khaki, and I do believe in a day without a cup of iced coffee, isn't just long, it's completely black and white.</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- PAGE 3: GALLERY PAGE (gallery.html) -->
+  <main id="gallery.html" class="page-view">
+    <section>
+      <h2 class="section-title">My Photo Gallery</h2>
+      <p class="section-subtitle">A chibi version of me is such a cutie.</p>
+      
+      <div class="gallery-grid">
+        <div class="gallery-item">
+          <img src="c1.jpg" alt="Chibi Illustration 1" onerror="this.onerror=null; this.src='c1.png';">
+          <div class="gallery-overlay"><span>Chibi #1</span></div>
+        </div>
+        <div class="gallery-item">
+          <img src="c2.jpg" alt="Chibi Illustration 2" onerror="this.onerror=null; this.src='c2.png';">
+          <div class="gallery-overlay"><span>Chibi #2</span></div>
+        </div>
+        <div class="gallery-item">
+          <img src="c3.jpg" alt="Chibi Illustration 3" onerror="this.onerror=null; this.src='c3.png';">
+          <div class="gallery-overlay"><span>Chibi #3</span></div>
+        </div>
+        <div class="gallery-item">
+          <img src="c4.jpg" alt="Chibi Illustration 4" onerror="this.onerror=null; this.src='c4.png';">
+          <div class="gallery-overlay"><span>Chibi #4</span></div>
+        </div>
+        <div class="gallery-item">
+          <img src="c5.jpg" alt="Chibi Illustration 5" onerror="this.onerror=null; this.src='c5.png';">
+          <div class="gallery-overlay"><span>Chibi #5</span></div>
+        </div>
+        <div class="gallery-item">
+          <img src="c6.jpg" alt="Chibi Illustration 6" onerror="this.onerror=null; this.src='c6.png';">
+          <div class="gallery-overlay"><span>Chibi #6</span></div>
+        </div>
+        <div class="gallery-item">
+          <img src="c7.jpg" alt="Chibi Illustration 7" onerror="this.onerror=null; this.src='c7.png';">
+          <div class="gallery-overlay"><span>Chibi #7</span></div>
+        </div>
+        <div class="gallery-item">
+          <img src="c8.jpg" alt="Chibi Illustration 8" onerror="this.onerror=null; this.src='c8.png';">
+          <div class="gallery-overlay"><span>Chibi #8</span></div>
+        </div>
+        <div class="gallery-item">
+          <img src="c9.jpg" alt="Chibi Illustration 9" onerror="this.onerror=null; this.src='c9.png';">
+          <div class="gallery-overlay"><span>Chibi #9</span></div>
+        </div>
+        <div class="gallery-item">
+          <img src="c10.jpg" alt="Chibi Illustration 10" onerror="this.onerror=null; this.src='c10.png';">
+          <div class="gallery-overlay"><span>Chibi #10</span></div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- PAGE 4: SKILLS PAGE (skills.html) -->
+  <main id="skills.html" class="page-view">
+    <section>
+      <h2 class="section-title">My Skills</h2>
+      <p class="section-subtitle">Technologies and tools I work with</p>
+      <div class="skills-grid">
+        <div class="skill-card">
+          <div class="skill-img-wrapper"><img src="webdev.jpg" alt="Web Development" class="skill-img lightbox-trigger" onerror="this.onerror=null; this.src='webdev.png';"></div>
+          <div class="skill-content"><h3>Web Development</h3><p>Responsive HTML5 layouts, modern CSS3 animations, and JS functionality.</p></div>
+        </div>
+        <div class="skill-card">
+          <div class="skill-img-wrapper"><img src="python.jpg" alt="Python Programming" class="skill-img lightbox-trigger" onerror="this.onerror=null; this.src='python.png';"></div>
+          <div class="skill-content"><h3>Python Programming</h3><p>CLI tools, Student Management Systems with CRUD, and JSON persistence.</p></div>
+        </div>
+        <div class="skill-card">
+          <div class="skill-img-wrapper"><img src="UImedia.jpg" alt="UI & Media Design" class="skill-img lightbox-trigger" onerror="this.onerror=null; this.src='UImedia.png';"></div>
+          <div class="skill-content"><h3>UI & Media Design</h3><p>Digital graphic design, visual assets, and interactive presentations.</p></div>
+        </div>
+        <div class="skill-card">
+          <div class="skill-img-wrapper"><img src="hardware.jpg" alt="Hardware & Systems" class="skill-img lightbox-trigger" onerror="this.onerror=null; this.src='hardware.png';"></div>
+          <div class="skill-content"><h3>Hardware & Systems</h3><p>Computer engineering fundamentals, RFID integrations, and monitoring.</p></div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- PAGE 5: PROJECTS PAGE (projects.html) -->
+  <main id="projects.html" class="page-view">
+    <section>
+      <h2 class="section-title">Featured Projects</h2>
+      <p class="section-subtitle">Some of my recent academic & personal builds</p>
+      <div class="projects-grid">
+        <div class="project-card">
+          <div class="project-img-wrapper"><img src="studman.jpg" alt="Student Management System" class="project-img lightbox-trigger" onerror="this.onerror=null; this.src='studman.png';"></div>
+          <div class="project-info">
+            <h3>Student Management System</h3>
+            <p>Python-driven application with CRUD capabilities and JSON persistence.</p>
+            <div class="project-tags"><span class="tag">Python</span><span class="tag">JSON</span><span class="tag">CLI</span></div>
+          </div>
+        </div>
+        <div class="project-card">
+          <div class="project-img-wrapper"><img src="Portfolio.jpg" alt="Personal Portfolio Website" class="project-img lightbox-trigger" onerror="this.onerror=null; this.src='portfoilio.jpg'; this.onerror=function(){this.src='portfolio.png';};"></div>
+          <div class="project-info">
+            <h3>Personal Portfolio Website</h3>
+            <p>Modern responsive portfolio website featuring smooth animations.</p>
+            <div class="project-tags"><span class="tag">HTML5</span><span class="tag">CSS3</span><span class="tag">JS</span></div>
+          </div>
+        </div>
+        <div class="project-card">
+          <div class="project-img-wrapper"><img src="rfid.jpg" alt="RFID Attendance System" class="project-img lightbox-trigger" onerror="this.onerror=null; this.src='RFID.jpg'; this.onerror=function(){this.src='rfid.png';};"></div>
+          <div class="project-info">
+            <h3>RFID Attendance System</h3>
+            <p>Co-authored research project integrating automated logging.</p>
+            <div class="project-tags"><span class="tag">Hardware</span><span class="tag">RFID</span><span class="tag">Automation</span></div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- PAGE 6: PLAYLIST PAGE (playlist.html) -->
+  <main id="playlist.html" class="page-view">
+    <section>
+      <h2 class="section-title">My Go-to Playlist</h2>
+      <p class="section-subtitle">Vibe with me, click a song on my playlist to play.</p>
+      <div class="youtube-playlist-wrapper">
+        <div class="video-player-container">
+          <video id="localVideoPlayer" controls style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: #000;">
+            <source src="Leaves.mp4" type="video/mp4">Your browser does not support the video tag.
+          </video>
+        </div>
+        <div class="playlist-items" id="playlistItems">
+          <div class="playlist-item active" data-file="Leaves.mp4"><span>🎵</span><div><h4>Leaves (feat. Young K)</h4><span>Ben&Ben</span></div></div>
+          <div class="playlist-item" data-file="Dieonthishill.mp4"><span>🎵</span><div><h4>Die On This Hill</h4><span>Sienna Spiro</span></div></div>
+          <div class="playlist-item" data-file="Someonelikeyou.mp4"><span>🎵</span><div><h4>Someone Like You</h4><span>Adele</span></div></div>
+          <div class="playlist-item" data-file="Onelastcry.mp4"><span>🎵</span><div><h4>One Last Cry</h4><span>Brian McKnight</span></div></div>
+          <div class="playlist-item" data-file="Laymedown.mp4"><span>🎵</span><div><h4>Lay Me Down</h4><span>Sam Smith</span></div></div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- PAGE 7: GAMES PAGE (games.html) -->
+  <main id="games.html" class="page-view">
+    <section>
+      <h2 class="section-title">Mini games I play</h2>
+      <p class="section-subtitle">Take a quick break and play Sudoku, XOX, or RPS!</p>
+      <div class="games-section-wrapper">
+        <div class="game-tabs">
+          <button class="game-tab-btn active" data-target="sudokuPanel">Sudoku</button>
+          <button class="game-tab-btn" data-target="xoxPanel">XOX (Tic-Tac-Toe)</button>
+          <button class="game-tab-btn" data-target="rpsPanel">2D Rock Paper Scissors</button>
+        </div>
+        
+        <div id="sudokuPanel" class="game-panel active">
+          <div style="margin-bottom: 0.75rem; display: flex; justify-content: center; align-items: center; gap: 1rem;">
+            <button class="btn btn-primary" id="newSudokuBtn" style="padding: 0.3rem 0.8rem; font-size: 0.8rem;">New Game</button>
+            <span id="sudokuStatus" style="font-weight: 700; font-size: 0.95rem; color: var(--text-dark);">Fill in the puzzle!</span>
+          </div>
+          <div class="sudoku-container-wrap"><div class="sudoku-grid" id="sudokuGrid"></div></div>
+        </div>
+
+        <div id="xoxPanel" class="game-panel">
+          <div style="margin-bottom: 1rem; display: flex; justify-content: center; align-items: center; gap: 1rem;">
+            <span id="xoxStatus" style="font-weight: 700; color: var(--text-dark);">Player X's Turn</span>
+            <button class="btn btn-primary" id="newXoxBtn" style="padding: 0.3rem 0.8rem; font-size: 0.8rem;">New Game</button>
+          </div>
+          <div class="xox-board" id="xoxBoard">
+            <div class="xox-cell" data-index="0"></div><div class="xox-cell" data-index="1"></div><div class="xox-cell" data-index="2"></div>
+            <div class="xox-cell" data-index="3"></div><div class="xox-cell" data-index="4"></div><div class="xox-cell" data-index="5"></div>
+            <div class="xox-cell" data-index="6"></div><div class="xox-cell" data-index="7"></div><div class="xox-cell" data-index="8"></div>
+          </div>
+        </div>
+
+        <div id="rpsPanel" class="game-panel">
+          <div class="rps-container">
+            <div style="display: flex; justify-content: center; align-items: center; gap: 1.5rem;">
+              <div class="rps-scoreboard">
+                <span>You: <strong id="playerScore">0</strong></span>
+                <span>CPU: <strong id="computerScore">0</strong></span>
+              </div>
+              <button class="btn btn-primary" id="newRpsBtn" style="padding: 0.3rem 0.8rem; font-size: 0.8rem;">New Game</button>
+            </div>
+            <div class="rps-arena">
+              <div class="rps-fighter"><span>You</span><div class="rps-avatar" id="playerAvatar">❓</div></div>
+              <div class="rps-vs">VS</div>
+              <div class="rps-fighter"><span>Computer</span><div class="rps-avatar" id="computerAvatar">❓</div></div>
+            </div>
+            <div id="rpsResult" style="font-weight: 700; font-size: 1.1rem; min-height: 1.5rem; color: var(--text-dark);">Choose your weapon!</div>
+            <div class="rps-choices">
+              <button class="rps-btn" data-choice="rock">✊ Rock</button>
+              <button class="rps-btn" data-choice="paper">📄 Paper</button>
+              <button class="rps-btn" data-choice="scissors">✂️ Scissors</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- PAGE 8: CONTACT PAGE (contact.html) -->
+  <main id="contact.html" class="page-view">
+    <section>
+      <h2 class="section-title">Happy to serve you.</h2>
+      <p class="section-subtitle">Have something to say? send us a message and have a cup of coffee.</p>
+      <div class="contact-container">
+        <!-- Hidden iframe for background form submission handling -->
+        <iframe name="hidden_iframe" id="hidden_iframe" style="display:none;"></iframe>
+        <form action="https://formsubmit.co/jaydavidzero23@gmail.com" method="POST" target="hidden_iframe" id="contactForm">
+          <input type="hidden" name="_captcha" value="false">
+          <input type="hidden" name="_template" value="table">
+          <div class="form-group"><label>Your Name</label><input type="text" name="name" class="form-control" required></div>
+          <div class="form-group"><label>Your Email</label><input type="email" name="email" class="form-control" required></div>
+          <div class="form-group"><label>Message</label><textarea name="message" rows="5" class="form-control" required></textarea></div>
+          <button type="submit" class="btn btn-primary" style="width: 100%;">Send Message</button>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <!-- FEATURE 1: LIGHTBOX MODAL OVERLAY -->
+  <div class="addon-lightbox-modal" id="addonLightboxModal">
+    <span class="addon-lightbox-close" id="addonLightboxClose">&times;</span>
+    <img class="addon-lightbox-content" id="addonLightboxImg" alt="Enlarged Preview">
+  </div>
+
+  <!-- COFFEE-THEMED SUCCESS POPUP MODAL -->
+  <div class="coffee-popup-modal" id="coffeePopupModal">
+    <div class="coffee-popup-content">
+      <div class="coffee-popup-cup-anim">
+        <div class="coffee-popup-steam"><span></span><span></span><span></span></div>
+        ☕
+      </div>
+      <p class="coffee-popup-msg">Now Serving, enjoy your cup of coffee.</p>
+      <button class="btn btn-primary" id="coffeePopupCloseBtn" style="width: 100%;">Close</button>
+    </div>
+  </div>
+
+  <footer>
+    <p>&copy; 2026 Cortes, Jhondave Pelayo. All Rights Reserved.</p>
+  </footer>
+
+  <script>
+    // --- VIRTUAL MULTI-PAGE ROUTER ---
+    function navigatePage() {
+      const hash = window.location.hash || '#index.html';
+      const targetPageId = hash.replace('#', '');
+      const pages = document.querySelectorAll('.page-view');
+      let found = false;
+
+      pages.forEach(page => {
+        if (page.id === targetPageId) {
+          page.classList.add('active-page');
+          found = true;
+        } else {
+          page.classList.remove('active-page');
+        }
+      });
+
+      if (!found) {
+        document.getElementById('index.html').classList.add('active-page');
+      }
+
+      window.scrollTo(0, 0);
+    }
+
+    window.addEventListener('hashchange', navigatePage);
+    window.addEventListener('load', navigatePage);
+
+    // --- UI & INTERACTIVE SCRIPTS ---
+    const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    function playSound(type) {
+      if (!audioCtx) return;
+      if (audioCtx.state === 'suspended') { audioCtx.resume(); }
+      const osc = audioCtx.createOscillator();
+      const gain = audioCtx.createGain();
+      osc.connect(gain);
+      gain.connect(audioCtx.destination);
+      const now = audioCtx.currentTime;
+      if (type === 'click') {
+        osc.frequency.setValueAtTime(400, now);
+        osc.frequency.exponentialRampToValueAtTime(200, now + 0.08);
+        gain.gain.setValueAtTime(0.15, now);
+        gain.gain.exponentialRampToValueAtTime(0.01, now + 0.08);
+        osc.start(now); osc.stop(now + 0.08);
+      } else if (type === 'win') {
+        osc.frequency.setValueAtTime(300, now);
+        osc.frequency.setValueAtTime(450, now + 0.1);
+        osc.frequency.setValueAtTime(600, now + 0.2);
+        gain.gain.setValueAtTime(0.2, now);
+        gain.gain.exponentialRampToValueAtTime(0.01, now + 0.35);
+        osc.start(now); osc.stop(now + 0.35);
+      } else if (type === 'lose') {
+        osc.frequency.setValueAtTime(300, now);
+        osc.frequency.exponentialRampToValueAtTime(150, now + 0.25);
+        gain.gain.setValueAtTime(0.2, now);
+        gain.gain.exponentialRampToValueAtTime(0.01, now + 0.25);
+        osc.start(now); osc.stop(now + 0.25);
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      setTimeout(() => document.getElementById('preloader')?.classList.add('fade-out'), 1400);
+
+      // --- LIGHTBOX MODAL LOGIC ---
+      const lightboxModal = document.getElementById('addonLightboxModal');
+      const lightboxImage = document.getElementById('addonLightboxImg');
+      const lightboxCloseBtn = document.getElementById('addonLightboxClose');
+
+      const lightboxTriggers = document.querySelectorAll('.gallery-item img, .nav-id-img, .hero-portrait, .lightbox-trigger img, .lightbox-trigger');
+
+      lightboxTriggers.forEach(trigger => {
+        trigger.addEventListener('click', (e) => {
+          e.preventDefault();
+          playSound('click');
+          const imgTarget = trigger.tagName === 'IMG' ? trigger : trigger.querySelector('img');
+          if (imgTarget) {
+            lightboxImage.src = imgTarget.src;
+            lightboxModal.classList.add('active');
+          }
+        });
+      });
+
+      function closeLightbox() {
+        lightboxModal.classList.remove('active');
+      }
+
+      lightboxCloseBtn?.addEventListener('click', closeLightbox);
+      
+      lightboxModal?.addEventListener('click', (e) => {
+        if (e.target === lightboxModal) {
+          closeLightbox();
+        }
+      });
+
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') {
+          if (lightboxModal.classList.contains('active')) closeLightbox();
+          const coffeeModal = document.getElementById('coffeePopupModal');
+          if (coffeeModal?.classList.contains('active')) coffeeModal.classList.remove('active');
+        }
+      });
+
+      // --- ROBUST IFRAME FORM SUBMISSION HANDLER ---
+      const contactForm = document.getElementById('contactForm');
+      const coffeePopupModal = document.getElementById('coffeePopupModal');
+      const coffeePopupCloseBtn = document.getElementById('coffeePopupCloseBtn');
+
+      if (contactForm) {
+        contactForm.addEventListener('submit', function () {
+          setTimeout(() => {
+            contactForm.reset();
+            playSound('win');
+            coffeePopupModal?.classList.add('active');
+          }, 500);
+        });
+      }
+
+      coffeePopupCloseBtn?.addEventListener('click', () => {
+        playSound('click');
+        coffeePopupModal.classList.remove('active');
+      });
+
+      coffeePopupModal?.addEventListener('click', (e) => {
+        if (e.target === coffeePopupModal) {
+          coffeePopupModal.classList.remove('active');
+        }
+      });
+
+      // Dropdown Navigation
+      const dropdownToggleBtn = document.getElementById('dropdownToggleBtn');
+      const dropdownMenu = document.getElementById('dropdownMenu');
+      if (dropdownToggleBtn && dropdownMenu) {
+        dropdownToggleBtn.addEventListener('click', (e) => {
+          e.stopPropagation();
+          dropdownMenu.classList.toggle('show');
+        });
+        dropdownMenu.querySelectorAll('a').forEach(link => {
+          link.addEventListener('click', () => dropdownMenu.classList.remove('show'));
+        });
+        window.addEventListener('click', () => dropdownMenu.classList.remove('show'));
+      }
+
+      // --- MOUSE CURSOR SMOKE TRAIL ---
+      const canvas = document.createElement('canvas');
+      canvas.id = 'addon-smoke-canvas';
+      document.body.appendChild(canvas);
+      const ctx = canvas.getContext('2d');
+
+      function resizeCanvas() {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+      }
+      window.addEventListener('resize', resizeCanvas);
+      resizeCanvas();
+
+      let particles = [];
+      let lastMouseX = window.innerWidth / 2;
+      let lastMouseY = window.innerHeight / 2;
+
+      window.addEventListener('mousemove', (e) => {
+        lastMouseX = e.clientX;
+        lastMouseY = e.clientY;
+      });
+
+      function smokeLoop() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+        particles.push({
+          x: lastMouseX + (Math.random() - 0.5) * 12,
+          y: lastMouseY + (Math.random() - 0.5) * 12,
+          size: Math.random() * 6 + 4,
+          maxSize: Math.random() * 28 + 22,
+          speedX: (Math.random() - 0.5) * 1.2,
+          speedY: -Math.random() * 1.4 - 0.6,
+          opacity: Math.random() * 0.28 + 0.1,
+          growth: Math.random() * 0.5 + 0.25
+        });
+
+        for (let i = particles.length - 1; i >= 0; i--) {
+          let p = particles[i];
+          p.x += p.speedX;
+          p.y += p.speedY;
+          p.size += p.growth;
+          p.opacity -= 0.007;
+
+          if (p.opacity <= 0 || p.size >= p.maxSize) {
+            particles.splice(i, 1);
+            continue;
+          }
+
+          ctx.save();
+          ctx.beginPath();
+          let gradient = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, p.size);
+          gradient.addColorStop(0, `rgba(255, 255, 255, ${p.opacity})`);
+          gradient.addColorStop(0.5, `rgba(220, 230, 245, ${p.opacity * 0.5})`);
+          gradient.addColorStop(1, 'rgba(255, 255, 255, 0)');
+          ctx.fillStyle = gradient;
+          ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+          ctx.fill();
+          ctx.restore();
+        }
+        requestAnimationFrame(smokeLoop);
+      }
+      smokeLoop();
+
+      // Dark Mode Toggle
+      const themeBtn = document.getElementById('themeToggleBtn');
+      const themeIcon = document.getElementById('themeIcon');
+      if (localStorage.getItem('theme') === 'dark') {
+        document.body.classList.add('dark-mode');
+        if (themeIcon) themeIcon.textContent = '☀️';
+      }
+      themeBtn?.addEventListener('click', () => {
+        playSound('click');
+        document.body.classList.toggle('dark-mode');
+        const isDark = document.body.classList.contains('dark-mode');
+        if (themeIcon) themeIcon.textContent = isDark ? '☀️' : '🌙';
+        localStorage.setItem('theme', isDark ? 'dark' : 'light');
+      });
+
+      // Video Playlist
+      const video = document.getElementById('localVideoPlayer');
+      document.querySelectorAll('.playlist-item').forEach(item => {
+        item.addEventListener('click', () => {
+          playSound('click');
+          document.querySelectorAll('.playlist-item').forEach(el => el.classList.remove('active'));
+          item.classList.add('active');
+          const file = item.getAttribute('data-file');
+          if (video && file) { video.src = file; video.play(); }
+        });
+      });
+
+      // Game Tabs
+      document.querySelectorAll('.game-tab-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          playSound('click');
+          document.querySelectorAll('.game-tab-btn').forEach(b => b.classList.remove('active'));
+          document.querySelectorAll('.game-panel').forEach(p => p.classList.remove('active'));
+          btn.classList.add('active');
+          document.getElementById(btn.getAttribute('data-target')).classList.add('active');
+        });
+      });
+
+      // Sudoku Setup
+      const sudokuGrid = document.getElementById('sudokuGrid');
+      const sudokuStatus = document.getElementById('sudokuStatus');
+      const solution = [5,3,4,6,7,8,9,1,2,6,7,2,1,9,5,3,4,8,1,9,8,3,4,2,5,6,7,8,5,9,7,6,1,4,2,3,4,2,6,8,5,3,7,9,1,7,1,3,9,2,4,8,5,6,9,6,1,5,3,7,2,8,4,2,8,7,4,1,9,6,3,5,3,4,5,2,8,6,1,7,9];
+      const superEasyMask = [1,1,1,1,0,1,1,1,1, 1,1,1,1,1,1,0,1,1, 1,1,0,1,1,1,1,1,1, 1,1,1,1,0,1,1,1,1, 1,1,1,1,1,1,1,1,1, 1,0,1,1,1,1,1,1,1, 1,1,1,0,1,1,1,1,1, 1,1,1,1,1,1,1,1,0, 0,1,1,1,1,1,1,1,1];
+
+      function initSudoku() {
+        if(!sudokuGrid) return;
+        sudokuGrid.innerHTML = '';
+        sudokuStatus.textContent = "Fill in the puzzle!";
+        sudokuStatus.style.color = "var(--text-dark)";
+        solution.forEach((val, idx) => {
+          const input = document.createElement('input');
+          input.type = 'text'; input.maxLength = 1; input.className = 'sudoku-cell';
+          input.dataset.solution = val;
+          if(superEasyMask[idx] === 1) { 
+            input.value = val; input.style.background = 'var(--cloud-puff)'; input.style.color = 'var(--text-dark)'; input.readOnly = true; 
+          } else {
+            input.addEventListener('input', () => {
+              playSound('click');
+              const userVal = input.value.trim();
+              if (userVal === "") input.style.backgroundColor = '';
+              else if (parseInt(userVal, 10) === val) { input.style.backgroundColor = '#c6f6d5'; input.style.color = '#1E293B'; checkSudokuCompletion(); }
+              else { input.style.backgroundColor = '#fed7d7'; input.style.color = '#1E293B'; }
+            });
+          }
+          sudokuGrid.appendChild(input);
+        });
+      }
+      function checkSudokuCompletion() {
+        let complete = true;
+        sudokuGrid.querySelectorAll('.sudoku-cell').forEach(cell => {
+          if (cell.value.trim() !== String(cell.dataset.solution)) complete = false;
+        });
+        if (complete) { playSound('win'); sudokuStatus.textContent = "🎉 Awesome! Puzzle Solved!"; sudokuStatus.style.color = "#2f855a"; }
+      }
+      initSudoku();
+      document.getElementById('newSudokuBtn')?.addEventListener('click', () => { playSound('click'); initSudoku(); });
+
+      // Tic-Tac-Toe Setup
+      const xoxCells = document.querySelectorAll('.xox-cell');
+      const xoxStatus = document.getElementById('xoxStatus');
+      let board = ['', '', '', '', '', '', '', '', ''];
+      let turn = 'X', active = true;
+
+      function initXox() {
+        board = ['', '', '', '', '', '', '', '', ''];
+        turn = 'X'; active = true;
+        xoxStatus.textContent = "Player X's Turn";
+        xoxCells.forEach(cell => { cell.textContent = ''; cell.style.color = ''; });
+      }
+      xoxCells.forEach(cell => {
+        cell.addEventListener('click', () => {
+          const i = cell.getAttribute('data-index');
+          if(board[i] !== '' || !active) return;
+          playSound('click');
+          board[i] = turn; cell.textContent = turn;
+          cell.style.color = turn === 'X' ? '#2563eb' : '#dc2626';
+          const wins = [[0,1,2],[3,4,5],[6,7,8],[0,3,6],[1,4,7],[2,5,8],[0,4,8],[2,4,6]];
+          if(wins.some(c => c.every(idx => board[idx] === turn))) {
+            playSound('win'); xoxStatus.textContent = `Player ${turn} Wins!`; active = false; return;
+          }
+          if(!board.includes('')) { playSound('lose'); xoxStatus.textContent = "It's a Draw!"; active = false; return; }
+          turn = turn === 'X' ? 'O' : 'X';
+          xoxStatus.textContent = `Player ${turn}'s Turn`;
+        });
+      });
+      document.getElementById('newXoxBtn')?.addEventListener('click', () => { playSound('click'); initXox(); });
+
+      // RPS Setup
+      let pScore = 0, cScore = 0;
+      const rpsResult = document.getElementById('rpsResult');
+      const playerScore = document.getElementById('playerScore');
+      const computerScore = document.getElementById('computerScore');
+      const playerAvatar = document.getElementById('playerAvatar');
+      const computerAvatar = document.getElementById('computerAvatar');
+      const rpsIcons = { rock: '✊', paper: '📄', scissors: '✂️' };
+
+      document.querySelectorAll('.rps-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          playSound('click');
+          const pChoice = btn.getAttribute('data-choice');
+          const choices = ['rock', 'paper', 'scissors'];
+          const cChoice = choices[Math.floor(Math.random() * choices.length)];
+          playerAvatar.classList.add('animating'); computerAvatar.classList.add('animating');
+          playerAvatar.textContent = '🔄'; computerAvatar.textContent = '🔄';
+          rpsResult.textContent = 'Battling...';
+
+          setTimeout(() => {
+            playerAvatar.classList.remove('animating'); computerAvatar.classList.remove('animating');
+            playerAvatar.textContent = rpsIcons[pChoice]; computerAvatar.textContent = rpsIcons[cChoice];
+            if (pChoice === cChoice) {
+              rpsResult.textContent = `It's a tie! Both chose ${pChoice}.`;
+            } else if ((pChoice === 'rock' && cChoice === 'scissors') || (pChoice === 'paper' && cChoice === 'rock') || (pChoice === 'scissors' && cChoice === 'paper')) {
+              pScore++; playerScore.textContent = pScore;
+              rpsResult.textContent = `You Win! ${pChoice} beats ${cChoice}. 🎉`; playSound('win');
+            } else {
+              cScore++; computerScore.textContent = cScore;
+              rpsResult.textContent = `You Lose! ${cChoice} beats ${pChoice}. 😢`; playSound('lose');
+            }
+          }, 350);
+        });
+      });
+      document.getElementById('newRpsBtn')?.addEventListener('click', () => {
+        playSound('click'); pScore = 0; cScore = 0;
+        playerScore.textContent = '0'; computerScore.textContent = '0';
+        playerAvatar.textContent = '❓'; computerAvatar.textContent = '❓';
+        rpsResult.textContent = 'Choose your weapon!';
+      });
+    });
+  </script>
+</body>
+</html>
